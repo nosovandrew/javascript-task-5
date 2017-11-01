@@ -55,13 +55,13 @@ function getEmitter() {
         off: function (event, context) {
             let commands = Object.keys(subscriptions).filter(command =>
                 command.startsWith(event));
-            commands = commands.reverse();
+            console.log(commands)
             commands.forEach(command => {
-                subscriptions[command].forEach((sub, i) => {
-                    if (sub.context === context) {
+                for (let i = 0; i < subscriptions[command].length; i++) {
+                    if (subscriptions[command][i].context === context) {
                         subscriptions[command].splice(i, 1);
                     }
-                });
+                }
             });
 
             return this;
