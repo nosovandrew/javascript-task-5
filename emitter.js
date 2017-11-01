@@ -27,7 +27,7 @@ function getEmitter() {
 
         return allEvents.reverse();
     }
-    
+
     return {
 
         /**
@@ -39,7 +39,7 @@ function getEmitter() {
 
         on: function (event, context, handler) {
             if (!subscriptions.hasOwnProperty(event)) {
-                subscriptions[event] = []
+                subscriptions[event] = [];
             }
             subscriptions[event].push({ context, handler });
 
