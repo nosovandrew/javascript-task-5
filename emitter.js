@@ -24,6 +24,7 @@ function getEmitter() {
                 allEvents.push(current.substring(1, current.length));
             }
         }
+
         return allEvents.reverse();
     }
 
