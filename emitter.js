@@ -55,6 +55,7 @@ function getEmitter() {
         off: function (event, context) {
             let commands = Object.keys(subscriptions).filter(command =>
                 command.startsWith(event));
+            commands = commands.reverse();
             commands.forEach(command => {
                 for (let i = 0; i < subscriptions[command].length; i++) {
                     if (subscriptions[command][i].context === context) {
