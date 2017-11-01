@@ -38,7 +38,7 @@ function getEmitter() {
          */
 
         on: function (event, context, handler) {
-            if (!subscriptions.hasOwnProperty(event)) {
+            if (!(event in subscriptions)) {
                 subscriptions[event] = [];
             }
             subscriptions[event].push({ context, handler });
@@ -54,14 +54,12 @@ function getEmitter() {
 
         off: function (event, context) {
             let commands = Object.keys(subscriptions).filter(command =>
-                command.startsWith(event));
-            console.log(commands)
-            commands.forEach(command => {
-                for (let i = 0; i < subscriptions[command].length; i++) {
-                    if (subscriptions[command][i].context === context) {
-                        subscriptions[command].splice(i, 1);
-                    }
-                }
+                command.startsWith(event) || command === event);
+            commands.forEach((el) => {
+                subscriptions[el] = subscriptions[el]
+                    .filter(sub => 
+                        sub.context !== context
+                    );
             });
 
             return this;
