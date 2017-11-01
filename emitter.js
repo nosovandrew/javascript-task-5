@@ -57,7 +57,7 @@ function getEmitter() {
                 command.startsWith(event) || command === event);
             commands.forEach((el) => {
                 subscriptions[el] = subscriptions[el]
-                    .filter(sub => 
+                    .filter(sub =>
                         sub.context !== context
                     );
             });
