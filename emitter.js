@@ -57,11 +57,11 @@ function getEmitter() {
                 command.startsWith(event));
             commands = commands.reverse();
             commands.forEach(command => {
-                for (let i = 0; i < subscriptions[command].length; i++) {
-                    if (subscriptions[command][i].context === context) {
+                subscriptions[command].forEach((sub, i) => {
+                    if (sub.context === context) {
                         subscriptions[command].splice(i, 1);
                     }
-                }
+                });
             });
 
             return this;
