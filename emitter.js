@@ -21,7 +21,7 @@ function getEmitter() {
         for (let i = 0; i < parse.length; i++) {
             current += '.' + parse[i];
             if (parse[i]) {
-                allEvents.push(current.substring(1, current.length));
+                allEvents.push(current.substring(1, current.length) + '.');
             }
         }
 
@@ -38,6 +38,7 @@ function getEmitter() {
          */
 
         on: function (event, context, handler) {
+            event += '.';
             if (!(event in subscriptions)) {
                 subscriptions[event] = [];
             }
@@ -54,12 +55,14 @@ function getEmitter() {
 
         off: function (event, context) {
             let commands = Object.keys(subscriptions).filter(command =>
-                command.startsWith(event) || command === event);
-            commands.forEach((el) => {
-                subscriptions[el] = subscriptions[el]
-                    .filter(sub =>
-                        sub.context !== context
-                    );
+                command.startsWith(event + '.'));
+            // console.log(commands);
+            commands.forEach(command => {
+                for (let i = 0; i < subscriptions[command].length; i++) {
+                    if (subscriptions[command][i].context === context) {
+                        subscriptions[command].splice(i, 1);
+                    }
+                }
             });
 
             return this;
