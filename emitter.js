@@ -16,16 +16,15 @@ function getEmitter() {
 
     function parseEvents(event) {
         let allEvents = [];
-        let parse = event.split('.');
-        let current = '';
-        for (let i = 0; i < parse.length; i++) {
-            current += '.' + parse[i];
-            if (parse[i]) {
-                allEvents.push(current.substring(1, current.length) + '.');
-            }
+        allEvents.push(event + '.');
+        let dot = event.lastIndexOf('.');
+        while (dot !== -1) {
+            event = event.slice(0, dot);
+            allEvents.push(event + '.');
+            dot = event.lastIndexOf('.');
         }
 
-        return allEvents.reverse();
+        return allEvents;
     }
 
     return {
@@ -77,9 +76,7 @@ function getEmitter() {
             let commands = parseEvents(event);
             for (let el of commands) {
                 if (subscriptions[el]) {
-                    subscriptions[el].forEach((sub) => {
-                        sub.handler.call(sub.context);
-                    });
+                    subscriptions[el].forEach(sub => sub.handler.call(sub.context));
                 }
             }
 
